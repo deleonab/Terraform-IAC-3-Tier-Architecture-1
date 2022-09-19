@@ -62,6 +62,7 @@ resource "aws_vpc" "main" {
 }
 ### I will run terraform init to download all terraform aws dependencies
 ```
+<<<<<<< HEAD
 ```
 terraform init
 ```
@@ -88,3 +89,5 @@ resource "aws_subnet" "public_2" {
   }
 }
 ```
+=======
+>>>>>>> 5fd0f1f811a9e88f5f6d3df7395096e9d0e8491f

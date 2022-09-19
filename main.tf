@@ -17,3 +17,6 @@ resource "aws_vpc" "main" {
     Name = "main VPC"
   }
 }
+<<<<<<< HEAD
+=======
+
