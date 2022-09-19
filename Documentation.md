@@ -10,3 +10,12 @@ I stored the Access ID key and Secret Key
 I installed Python SDK (Boto3)
 
 Next, I created an S3 bucket in the AWS console called dele-dev-terraform-bucket to store the Terraform state file
+
+After this, I authenticated using aws configure using my key credentials
+```
+aws configure
+```
+I checked the configuration by listing my previously created 33 bucket
+```
+aws s3 list
+```
