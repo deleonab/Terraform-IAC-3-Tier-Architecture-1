@@ -89,5 +89,3 @@ resource "aws_subnet" "public_2" {
   }
 }
 ```
-=======
->>>>>>> 5fd0f1f811a9e88f5f6d3df7395096e9d0e8491f
