@@ -3,5 +3,7 @@
 ![Project Objective](./images/tooling_project_16.png)
 
 
-### I created a new user called Terraform and granted the user only programatic access with administrator privileges.
+### I created a new user called Terraform and granted the user only programatic access with AdministrativeAccess.
 I stored the Access ID key and Secret Key
+I installed Python SDK (Boto3)
+### I created an S3 bucket in the AWS console called dele-dev-terraform-bucket to store the Terraform state file
