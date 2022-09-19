@@ -1,17 +1,23 @@
 # Configure the AWS Provider. Our provider is AWS for this project
 provider "aws" {
-  region = "eu-west-2"
+  region = var.region
 }
 
+# Get the number of availability zones in th region
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+# az_count = length(data.aws_availability_zones.available.names)
 # Now that we have specified the provider, it is time to start creating the resources. The first resource will be the VPC
 
 resource "aws_vpc" "main" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
-  enable_dns_support = true
-  enable_dns_hostnames = true
-  enable_classiclink = false
-  enable_classiclink_dns_support = false
+  enable_dns_support = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_classiclink = var.enable_classiclink
+  enable_classiclink_dns_support = var.enable_classiclink_dns_support
   
     tags = {
     Name = "main VPC"
@@ -20,24 +26,29 @@ resource "aws_vpc" "main" {
 # I will run terraform init to download all terraform aws dependencies
 ## Let's start creating the vpc's
 
-resource "aws_subnet" "public_1" {
+resource "aws_subnet" "public" {
+    # count is number of public subnets required
+  count =  var.preferred_number_of_public_subnets == null ? length(data.aws_availability_zones.available.names) : var.preferred_number_of_public_subnets
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = cidrsubnet(var.vpc_cidr,4,count.index)
   map_public_ip_on_launch = true
-  availability_zone = "eu-west-2a"
+  availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
-    Name = "public-subnet-1"
+    Name = "public-subnet -${count.index}"
   }
 }
 
-resource "aws_subnet" "public_2" {
+
+#Next, I will create 4 private subnets
+resource "aws_subnet" "private" {
+  count = var.preferred_number_of_private_subnets == null ? length(data.aws_availability_zones.available.names) : var.preferred_number_of_private_subnets
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
-  map_public_ip_on_launch = true
-  availability_zone = "eu-west-2b"
+  cidr_block = cidrsubnet(var.vpc_cidr,4,count.index +2)
+  map_public_ip_on_launch = false
+  # error invalid index, given index is greater than collection - got fixed by wrapping the AZ list in an element function
+  availability_zone = element(data.aws_availability_zones.available.names[*],count.index)
   tags = {
-    Name = "public-subnet-2"
+    Name = "private-subnet-${count.index}"
   }
 }
 
-#Next, I will refactor the code to remove the hardcoded variables.
