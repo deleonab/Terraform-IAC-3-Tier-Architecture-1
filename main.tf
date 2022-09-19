@@ -40,3 +40,4 @@ resource "aws_subnet" "public_2" {
   }
 }
 
+Next, I will refactor the code to remove the hardcoded variables.
