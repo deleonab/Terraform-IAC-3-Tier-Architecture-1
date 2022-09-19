@@ -17,3 +17,4 @@ resource "aws_vpc" "main" {
     Name = "main VPC"
   }
 }
+### I will run terraform init to download all terraform aws dependencies
