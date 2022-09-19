@@ -19,3 +19,8 @@ I checked the configuration by listing my previously created 33 bucket
 ```
 aws s3 list
 ```
+```
+MINGW64 ~/Documents/Terraform-IAC-3-Tier-Architecture-1 (main)
+$ aws s3 ls
+2022-09-19 12:18:38 dele-dev-terraform-bucket
+```
