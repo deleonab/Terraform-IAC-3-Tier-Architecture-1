@@ -24,3 +24,11 @@ MINGW64 ~/Documents/Terraform-IAC-3-Tier-Architecture-1 (main)
 $ aws s3 ls
 2022-09-19 12:18:38 dele-dev-terraform-bucket
 ```
+LET'S START WRITING SOME CODE. I WILL DO THIS IN STEPS
+
+I will start with:
+
+1. VPC
+2. Public Subnet for the NAT Gateway, proxy server and Bastion host
+3. Private Subnets for webservers
+4. private subnets for data layer
