@@ -2,7 +2,7 @@ resource "aws_lb" "ext-alb" {
   name               = "ext-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.ext-alb-selecting.id]
+  security_groups    = [aws_security_group.ext-alb-sg.id]
   subnets            = [for subnet in aws_subnet.public : subnet.id]
   ip_address_type = "ipv4"
   enable_deletion_protection = true
@@ -49,5 +49,7 @@ resource "aws_lb_listener" "nginx-listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.nginx-tg.arn
+    }
+}
 
 
