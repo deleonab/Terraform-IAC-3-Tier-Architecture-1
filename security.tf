@@ -119,3 +119,34 @@ resource "aws_security_group_rule" "int-alb-rule" {
   security_group_id = aws_security_group.int-alb-sg.id
 }
 
+
+# Webservers security groups
+
+
+resource "aws_security_group" "Webservers-sg" {
+  name        = "webservers-sg"
+  description = "Allow TLS inbound traffic from internal ALB"
+  vpc_id      = aws_vpc.main.id
+
+   egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    
+  }
+
+  tags = {
+    Name = "webservers-sg"
+  }
+}
+
+resource "aws_security_group_rule" "nginx-sg-rule" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.ext-alb-sg.id
+  security_group_id = aws_security_group.nginx-sg.id
+}
+
