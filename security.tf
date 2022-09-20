@@ -40,14 +40,12 @@ resource "aws_security_group" "bastion-sg" {
   description = "Allow TLS inbound traffic frm ALB"
   vpc_id      = aws_vpc.main.id
 
-  ingress {
-    description      = "SSH"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    # CIDR block should be restricted to host IP address in production
-    cidr_blocks      = ["0.0.0.0/0"]
-    
+   ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -91,3 +89,33 @@ resource "aws_security_group_rule" "nginx-sg-rule" {
   source_security_group_id = aws_security_group.ext-alb-sg.id
   security_group_id = aws_security_group.nginx-sg.id
 }
+
+
+
+resource "aws_security_group" "int-alb-sg" {
+  name        = "int-alb-sg"
+  description = "Allow TLS inbound traffic from nginx"
+  vpc_id      = aws_vpc.main.id
+
+   egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    
+  }
+
+  tags = {
+    Name = "int-alb-sg"
+  }
+}
+
+resource "aws_security_group_rule" "int-alb-rule" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.nginx-sg.id
+  security_group_id = aws_security_group.int-alb-sg.id
+}
+
