@@ -141,12 +141,12 @@ resource "aws_security_group" "Webservers-sg" {
   }
 }
 
-resource "aws_security_group_rule" "nginx-sg-rule" {
+resource "aws_security_group_rule" "webservers-sg-rule" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  source_security_group_id = aws_security_group.ext-alb-sg.id
-  security_group_id = aws_security_group.nginx-sg.id
+  source_security_group_id = aws_security_group.int-alb-sg.id
+  security_group_id = aws_security_group.webservers-sg.id
 }
 
