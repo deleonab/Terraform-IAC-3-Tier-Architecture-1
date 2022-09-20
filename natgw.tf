@@ -2,7 +2,7 @@ resource "aws_eip" "nat_eip" {
   vpc = true
   depends_on                = [aws_internet_gateway.igw]
    tags = {
-    Name = Format("%s-%s",aws_vpc.main.id,"EIP")
+    Name = format("%s-%s",aws_vpc.main.id,"EIP")
   }
 }
 
@@ -13,6 +13,6 @@ resource "aws_nat_gateway" "natgw" {
  # To ensure proper ordering, it is recommended to add an explicit dependency on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.igw]
    tags = {
-    Name = Format("%s-%s",aws_subnet.vpc_id.main.id,"NATGW")
+    Name = format("%s-%s",aws_subnet.vpc_id.main.id,"NATGW")
   }
 }
